@@ -1,0 +1,16 @@
+export const IPC_CHANNELS = {
+  selectImages: 'dialog:select-images',
+  selectFolder: 'dialog:select-folder',
+  chooseExportDirectory: 'dialog:choose-export-directory',
+  importPaths: 'images:import-paths',
+  compressImages: 'images:compress',
+  cancelCompression: 'images:cancel',
+  compressionProgress: 'images:progress',
+  openFolder: 'shell:open-folder',
+  copyImage: 'clipboard:copy-image',
+  getPreferences: 'preferences:get',
+  savePreferences: 'preferences:save',
+  uiOpenImages: 'ui:open-images',
+  uiExport: 'ui:export',
+  uiPreferences: 'ui:preferences',
+} as const;

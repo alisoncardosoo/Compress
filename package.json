@@ -1,0 +1,90 @@
+{
+  "name": "compress",
+  "version": "1.2.1",
+  "description": "Compress compresses images locally on macOS with Electron, React, TypeScript and Sharp.",
+  "author": "Compress",
+  "license": "MIT",
+  "main": "dist-electron/electron/main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "./node_modules/.bin/concurrently -k \"./node_modules/.bin/vite --host 127.0.0.1\" \"./node_modules/.bin/wait-on tcp:5173 && ./node_modules/.bin/electron .\"",
+    "make:icon": "node scripts/create-icon.mjs",
+    "copy:preload": "node scripts/copy-preload.mjs",
+    "build": "npm run make:icon && npm run typecheck && ./node_modules/.bin/vite build && ./node_modules/.bin/tsc -p tsconfig.electron.json && npm run copy:preload && CSC_IDENTITY_AUTO_DISCOVERY=false ./node_modules/.bin/electron-builder --mac dmg && node scripts/finalize-package.mjs",
+    "build:dir": "npm run make:icon && npm run typecheck && ./node_modules/.bin/vite build && ./node_modules/.bin/tsc -p tsconfig.electron.json && npm run copy:preload && CSC_IDENTITY_AUTO_DISCOVERY=false ./node_modules/.bin/electron-builder --mac dir && node scripts/finalize-package.mjs",
+    "typecheck": "./node_modules/.bin/tsc --noEmit && ./node_modules/.bin/tsc -p tsconfig.electron.json --noEmit",
+    "lint": "./node_modules/.bin/eslint . --ext ts,tsx --max-warnings 0",
+    "preview": "./node_modules/.bin/vite preview --host 127.0.0.1"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^4.5.0",
+    "electron-store": "^10.0.1",
+    "framer-motion": "^11.18.2",
+    "lucide-react": "^0.468.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "sharp": "^0.33.5",
+    "zustand": "^5.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@typescript-eslint/eslint-plugin": "^8.19.1",
+    "@typescript-eslint/parser": "^8.19.1",
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^9.1.2",
+    "electron": "^33.3.0",
+    "electron-builder": "^25.1.8",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7",
+    "wait-on": "^8.0.1"
+  },
+  "build": {
+    "appId": "com.compress.app",
+    "productName": "Compress",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "node_modules/sharp/**/*",
+      "node_modules/@img/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "build/icon.icns",
+        "to": "icon.icns"
+      },
+      {
+        "from": "build/icon-dark.icns",
+        "to": "icon-dark.icns"
+      }
+    ],
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "icon": "build/icon.icns",
+      "category": "public.app-category.graphics-design",
+      "darkModeSupport": true,
+      "identity": null,
+      "hardenedRuntime": false
+    },
+    "dmg": {
+      "backgroundColor": "#f5f5f7",
+      "window": {
+        "width": 540,
+        "height": 380
+      }
+    }
+  }
+}
