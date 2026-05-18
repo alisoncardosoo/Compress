@@ -12,7 +12,7 @@
     "copy:preload": "node scripts/copy-preload.mjs",
     "build": "npm run make:icon && npm run typecheck && ./node_modules/.bin/vite build && ./node_modules/.bin/tsc -p tsconfig.electron.json && npm run copy:preload && CSC_IDENTITY_AUTO_DISCOVERY=false ./node_modules/.bin/electron-builder --mac dmg && node scripts/finalize-package.mjs",
     "build:dir": "npm run make:icon && npm run typecheck && ./node_modules/.bin/vite build && ./node_modules/.bin/tsc -p tsconfig.electron.json && npm run copy:preload && CSC_IDENTITY_AUTO_DISCOVERY=false ./node_modules/.bin/electron-builder --mac dir && node scripts/finalize-package.mjs",
-    "typecheck": "./node_modules/.bin/tsc --noEmit && ./node_modules/.bin/tsc -p tsconfig.electron.json --noEmit",
+    "typecheck": "node scripts/run-typecheck.mjs",
     "lint": "node scripts/run-eslint.mjs",
     "preview": "./node_modules/.bin/vite preview --host 127.0.0.1"
   },
